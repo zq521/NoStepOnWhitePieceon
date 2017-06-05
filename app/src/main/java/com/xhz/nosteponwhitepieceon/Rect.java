@@ -15,8 +15,8 @@ public class Rect extends Rectangle {
     public Rect(boolean isBlack) {
         super(Config.getCardWitch(), Config.getCardHeihht(), isBlack ? 0xff000000 : 0xffffffff);
         black = isBlack;
-    }
 
+    }
 
     public boolean isBlack() {
         return black;

@@ -35,25 +35,27 @@ public class RectLine extends Container {
         @Override
         public boolean onReceive(TweenEvent event, Tween tween) {
             tweenRunning = false;
-            if (getOnlineMoveDownTweenEnd()!=null){
+            if (getOnlineMoveDownTweenEnd() != null) {
                 getOnlineMoveDownTweenEnd().onEnd(RectLine.this);
             }
 
-                return false;
+            return false;
         }
     };
     private List<Rect> rects = new ArrayList<>();
 
     public RectLine() {
         Rect r;
+        //在行中添加4个方块
         for (int i = 0; i < 4; i++) {
             r = new Rect(false);
-            r.setBorderWidth(5);//设置便可宽度
+            r.setBorderWidth(5);//设置边框宽度
             r.setX(Config.getCardWitch() * i);
             add(r);
             rects.add(r);
             r.touchDown.add(recttouchDownHanlder);
         }
+        //随机将其中一个方块设置为黑色
         rects.get((int) (Math.random() * rects.size())).setBlack(true);
         //Create a TranslateTween object which is using to move this line down
         tt = new TranslateTween(this, 0, 0, 0, 0);
@@ -63,6 +65,7 @@ public class RectLine extends Container {
 
     private int positionIndex = 0;
     private OnRectSelected onRectSelected = null;
+
     public interface OnRectSelected {
         void onSelect(Rect rect, RectLine target);
     }
@@ -86,23 +89,30 @@ public class RectLine extends Container {
         }
     }
 
+    /**
+     * 根据索引位置将该行移动到特定的坐标位置
+     */
     public void setPositionYByIndex() {
         setY(Config.getCardHeihht() * getPositionIndex());
     }
 
-    public void moveToTargetPositionByIndex(){
-        if (!tweenRunning){
-            tweenRunning=true;
+    public void moveToTargetPositionByIndex() {
+        if (!tweenRunning) {
+            tweenRunning = true;
             tt.setStartY(getY());
-            tt.setEndY(getPositionIndex()*Config.getCardHeihht());
+            tt.setEndY(getPositionIndex() * Config.getCardHeihht());
             tt.start();
         }
     }
 
 
+    public boolean isTweenRunning() {
+        return tweenRunning;
+    }
+
     private TranslateTween tt;
     private boolean tweenRunning = false;
-    private OnLineMoveDownTweenEnd onlineMoveDownTweenEnd=null;
+    private OnLineMoveDownTweenEnd onlineMoveDownTweenEnd = null;
 
     public void setOnlineMoveDownTweenEnd(OnLineMoveDownTweenEnd onlineMoveDownTweenEnd) {
         this.onlineMoveDownTweenEnd = onlineMoveDownTweenEnd;
@@ -115,8 +125,6 @@ public class RectLine extends Container {
     public interface OnLineMoveDownTweenEnd {
         void onEnd(RectLine target);
     }
-
-
 
 
 }
